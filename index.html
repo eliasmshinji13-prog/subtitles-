@@ -130,9 +130,9 @@
     return `
       <div class="card" id="${id}">
         <h3>${title}</h3>
-        <a class="btn" href="/subtitles/${filename}" download>
-          Download Subtitle
-        </a>
+       <a class="btn" href="/subtitles/\( {filename}" download=" \){filename}">
+  Download Subtitle
+</a>
       </div>
     `;
   }
