@@ -103,7 +103,105 @@
 <footer>
   Contact Us:<br>
   <a href="https://wa.me/255775769511">WhatsApp</a> |
-  <a href="https://instagram.com/subtitles_za_kiswahili">Instagram</a>
+  <a href="https://instagram.com">Instagram</a>
+  <br><br>
+  © 2025 Meck Elias Subtitles
+</footer>
+
+<script>
+  // Orodha ya faili zote ndani ya /subtitles/ (ongeza jina la faili mpya hapa chini – line moja tu)
+  const subtitleFiles = [
+    "f1-subtitle-new.vtt",
+    "the-running-man-subtitle.vtt",
+    "wake-up-dead-man-a-knives-out.vtt"
+  ];
+
+  function formatTitle(filename) {
+    return filename
+      .replace(/\.vtt|\.srt/g, '')
+      .replace(/-/g, ' ')
+      .replace(/\b\w/g, l => l.toUpperCase());
+  }
+
+  function createCard(filename) {
+    const title = formatTitle(filename);
+    const id = filename.replace(/\.vtt|\.srt/g, '').replace(/[^a-zA-Z0-9]/g, '');
+    return `
+      <div class="card" id="${id}">
+        <h3>${title}</h3>
+        <a class="btn" href="/\( {filename}" download=" \){filename}">
+          Download Subtitle
+        </a>
+      </div>
+    `;
+  }
+
+  window.onload = () => {
+    const container = document.getElementById("subtitlesContainer");
+    subtitleFiles.forEach(file => {
+      container.innerHTML += createCard(file);
+    });
+  };
+
+  function searchMovie(text){
+    text = text.toLowerCase().trim();
+    let found = false;
+
+    subtitleFiles.forEach(file => {
+      const title = formatTitle(file).toLowerCase();
+      const id = file.replace(/\.vtt|\.srt/g, '').replace(/[^a-zA-Z0-9]/g, '');
+      const card = document.getElementById(id);
+      if(text === "" || title.includes(text)){
+        card.style.display = "block";
+        found = true;
+      }else{
+        card.style.display = "none";
+      }
+    });
+
+    document.getElementById("notFound").style.display = found || text === "" ? "none" : "block";
+  }
+</script>
+
+</body>
+  </html>      <div class="card" id="${id}">
+        <h3>${title}</h3>
+        <a class="btn" href="/\( {filename}" download=" \){filename}">
+          Download Subtitle
+        </a>
+      </div>
+    `;
+  }
+
+  window.onload = () => {
+    const container = document.getElementById("subtitlesContainer");
+    subtitleFiles.forEach(file => {
+      container.innerHTML += createCard(file);
+    });
+  };
+
+  function searchMovie(text){
+    text = text.toLowerCase().trim();
+    let found = false;
+
+    subtitleFiles.forEach(file => {
+      const title = formatTitle(file).toLowerCase();
+      const id = file.replace(/\.vtt|\.srt/g, '').replace(/[^a-zA-Z0-9]/g, '');
+      const card = document.getElementById(id);
+      if(text === "" || title.includes(text)){
+        card.style.display = "block";
+        found = true;
+      }else{
+        card.style.display = "none";
+      }
+    });
+
+    document.getElementById("notFound").style.display = found || text === "" ? "none" : "block";
+  }
+</script>
+
+</body>
+</html>  <a href="https://instagram.com/subtitles_za_kiswahili">Instagram</a>
   <br><br>
   © 2025 Meck Elias Subtitles
 </footer>
