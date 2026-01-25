@@ -8,7 +8,7 @@
 <style>
 body{
   margin:0;
-  font-family:Arial,sans-serif;
+  font-family:Arial, sans-serif;
   background:linear-gradient(180deg,#020617,#020b1f);
   color:white;
   text-align:center;
@@ -44,6 +44,7 @@ input{
   box-shadow:0 10px 30px rgba(34,211,238,0.2);
 }
 .card h3{
+  margin:10px 0;
   color:#22d3ee;
 }
 .btn{
@@ -55,6 +56,7 @@ input{
   border-radius:30px;
   text-decoration:none;
   font-weight:bold;
+  font-size:18px;
 }
 .notfound{
   display:none;
@@ -85,14 +87,20 @@ footer a{
 <div class="container">
   <h2>Pakua Subtitles za Kiswahili Bure</h2>
 
-  <input type="text" id="searchInput" placeholder="Andika jina la movie..." oninput="searchMovie(this.value)">
+  <input
+    type="text"
+    placeholder="Andika jina la movie..."
+    oninput="searchMovie(this.value)"
+  >
 
   <div id="subtitlesContainer"></div>
 
   <div class="notfound" id="notFound">
     ❌ Subtitle haipo<br><br>
     Omba kupitia WhatsApp:
-    <a href="https://wa.me/255775769511" style="color:#22d3ee;">0775 769 511</a>
+    <a href="https://wa.me/255775769511" style="color:#22d3ee;">
+      0775 769 511
+    </a>
   </div>
 </div>
 
@@ -105,57 +113,68 @@ footer a{
 </footer>
 
 <script>
-// ⚠️ BADILISHA JINA LA REPO KAMA LINATOFAUTI
+// ===== GITHUB INFO (USIBADILISHE) =====
 const GITHUB_USER = "elias";
-const REPO_NAME = "subtitles-";
-const BRANCH = "main";
+const REPO_NAME  = "subtitles-";
+const BRANCH     = "main";
 
+// ===== MAJINA HALISI YA FILE (COPY KUTOKA GITHUB) =====
 const subtitleFiles = [
   "f1-subtitle-new-swahili.vtt",
   "the-running-man-subtitle.vtt",
-  "wake-up-dead-man-a-knives-out-mystery.vtt"
+  "wake-up-dead-man-a-knives-out-mystery-swahili.vtt"
 ];
 
-function formatTitle(name){
-  return name
+// ===== FUNCTIONS =====
+function formatTitle(filename){
+  return filename
     .replace(".vtt","")
     .replace(/-/g," ")
-    .replace(/\b\w/g,l=>l.toUpperCase());
+    .replace(/\b\w/g, l => l.toUpperCase());
 }
 
-function createCard(file){
-  const rawUrl = `https://raw.githubusercontent.com/${GITHUB_USER}/${REPO_NAME}/${BRANCH}/${file}`;
+function createCard(filename){
+  const rawLink =
+    `https://raw.githubusercontent.com/${GITHUB_USER}/${REPO_NAME}/${BRANCH}/${filename}`;
+
   return `
     <div class="card">
-      <h3>${formatTitle(file)}</h3>
-      <a class="btn" href="${rawUrl}" download>Download Subtitle</a>
+      <h3>${formatTitle(filename)}</h3>
+      <a class="btn" href="${rawLink}" download>
+        Download Subtitle
+      </a>
     </div>
   `;
 }
 
+// ===== LOAD SUBTITLES =====
 const container = document.getElementById("subtitlesContainer");
 
-subtitleFiles.forEach(file=>{
-  container.innerHTML += createCard(file);
-});
+function renderList(list){
+  container.innerHTML = "";
+  list.forEach(file=>{
+    container.innerHTML += createCard(file);
+  });
+}
 
+renderList(subtitleFiles);
+
+// ===== SEARCH =====
 function searchMovie(text){
   text = text.toLowerCase().trim();
-  let found = false;
-  container.innerHTML = "";
+  const filtered = subtitleFiles.filter(file =>
+    formatTitle(file).toLowerCase().includes(text)
+  );
 
-  subtitleFiles.forEach(file=>{
-    const title = formatTitle(file).toLowerCase();
-    if(text === "" || title.includes(text)){
-      container.innerHTML += createCard(file);
-      found = true;
-    }
-  });
-
-  document.getElementById("notFound").style.display =
-    found || text === "" ? "none" : "block";
+  if(filtered.length === 0 && text !== ""){
+    container.innerHTML = "";
+    document.getElementById("notFound").style.display = "block";
+  }else{
+    document.getElementById("notFound").style.display = "none";
+    renderList(filtered);
+  }
 }
 </script>
 
 </body>
-</html>
+  </html>
